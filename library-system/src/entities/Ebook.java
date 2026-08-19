@@ -23,7 +23,7 @@ public class Ebook extends Book {
                 "Ebook: " + getTitle() +
                         " | Author: " + getAuthor() +
                         " | Number of pages: " + getNumberOfPages() +
-                        " | Weight: " + getFileSize() + "MB"
+                        " | File size: " + getFileSize() + "MB"
         );
     }
 }
