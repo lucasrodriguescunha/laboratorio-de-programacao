@@ -19,7 +19,7 @@ public class Main {
         );
 
         Hero mario = new Mario(
-                "Mário",
+                "Mario",
                 100,
                 100
         );
