@@ -1,14 +1,11 @@
 package entities;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Library {
 
-    private ArrayList<Book> books = new ArrayList<>();
-
-    public Library() {
-
-    }
+    private final List<Book> books = new ArrayList<>();
 
     public void addBook(Book book) {
         books.add(book);
