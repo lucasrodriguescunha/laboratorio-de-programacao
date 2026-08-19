@@ -1,0 +1,6 @@
+# Normaliza os finais de linha: LF no repositório, nativo no working tree
+* text=auto
+
+*.java text
+*.iml  text
+*.class binary
