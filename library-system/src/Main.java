@@ -19,14 +19,11 @@ public class Main {
                 16.9
         );
 
-
         Library library = new Library();
 
         library.addBook(physicalBook);
         library.addBook(ebook);
 
-        physicalBook.description();
-        ebook.description();
-
+        library.listBooks();
     }
 }
