@@ -20,10 +20,10 @@ public class PhysicalBook extends Book {
     @Override
     public void description() {
         System.out.println(
-                "Physical book: " + getTitle() +
-                        " | Author: " + getAuthor() +
-                        " | Number of pages: " + getNumberOfPages() +
-                        " | Weight: " + getWeight() + "g"
+                "Livro físico: " + getTitle() +
+                        " | Autor: " + getAuthor() +
+                        " | Páginas: " + getNumberOfPages() +
+                        " | Peso: " + getWeight() + "g"
         );
     }
 }

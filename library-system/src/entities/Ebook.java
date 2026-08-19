@@ -21,9 +21,9 @@ public class Ebook extends Book {
     public void description() {
         System.out.println(
                 "Ebook: " + getTitle() +
-                        " | Author: " + getAuthor() +
-                        " | Number of pages: " + getNumberOfPages() +
-                        " | File size: " + getFileSize() + "MB"
+                        " | Autor: " + getAuthor() +
+                        " | Páginas: " + getNumberOfPages() +
+                        " | Tamanho: " + getFileSize() + "MB"
         );
     }
 }
