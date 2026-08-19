@@ -6,7 +6,7 @@ public class Ebook extends Book {
 
     public Ebook(String title, String author, int numberOfPages, double fileSize) {
         super(title, author, numberOfPages);
-        this.fileSize = fileSize;
+        setFileSize(fileSize);
     }
 
     public double getFileSize() {
@@ -14,7 +14,7 @@ public class Ebook extends Book {
     }
 
     public void setFileSize(double fileSize) {
-        this.fileSize = fileSize;
+        this.fileSize = Math.max(fileSize, 0);
     }
 
     @Override

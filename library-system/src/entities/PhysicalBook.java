@@ -6,7 +6,7 @@ public class PhysicalBook extends Book {
 
     public PhysicalBook(String title, String author, int numberOfPages, double weight) {
         super(title, author, numberOfPages);
-        this.weight = weight;
+        setWeight(weight);
     }
 
     public double getWeight() {
@@ -14,7 +14,7 @@ public class PhysicalBook extends Book {
     }
 
     public void setWeight(double weight) {
-        this.weight = weight;
+        this.weight = Math.max(weight, 0);
     }
 
     @Override

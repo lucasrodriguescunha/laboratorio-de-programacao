@@ -9,7 +9,7 @@ public abstract class Book {
     public Book(String title, String author, int numberOfPages) {
         this.title = title;
         this.author = author;
-        this.numberOfPages = numberOfPages;
+        setNumberOfPages(numberOfPages);
     }
 
     public String getTitle() {
@@ -33,7 +33,7 @@ public abstract class Book {
     }
 
     public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
+        this.numberOfPages = Math.max(numberOfPages, 0);
     }
 
     public abstract void description();
