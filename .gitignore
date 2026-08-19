@@ -1,0 +1,12 @@
+# Artefatos de compilação
+out/
+build/
+bin/
+*.class
+
+# IntelliJ IDEA
+.idea/
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
