@@ -30,7 +30,7 @@ Requer JDK 17 ou superior.
 
 ## Dados de exemplo
 
-O `Main` já cadastra, antes de abrir o menu:
+A classe `SampleData`, chamada pelo `Main`, cadastra antes de o menu abrir:
 
 | Tipo | Identificador | Descrição |
 |---|---|---|
@@ -196,9 +196,9 @@ Resumo — o detalhamento, com os diagramas, está na seção 6 de
 
 ```
 src/
-├── Main.java              ponto de entrada: popula a biblioteca e abre o menu
+├── Main.java              ponto de entrada: cria a biblioteca e abre o menu
 ├── app/                   Menu (roteiro comum), o menu principal, os quatro
-│                          submenus e ConsoleInput
+│                          submenus, ConsoleInput e SampleData
 ├── interfaces/            Describable, Borrowable
 ├── entities/              book/, person/, loan/ — o modelo de domínio
 ├── services/              Library (fachada) e os quatro serviços

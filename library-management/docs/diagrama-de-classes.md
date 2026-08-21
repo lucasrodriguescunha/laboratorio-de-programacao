@@ -8,7 +8,7 @@ polimorfismo, interfaces e exceções personalizadas.
 
 ```
 library-management/src/
-├── Main.java                            ●  popula a biblioteca e abre o menu
+├── Main.java                            ●  cria a biblioteca e abre o menu
 ├── app/
 │   ├── Menu.java (abstract)             ●  roteiro comum a todo menu; trata as exceções
 │   ├── LibraryMenu.java                 ●  menu principal: encaminha para os submenus
@@ -16,7 +16,8 @@ library-management/src/
 │   ├── MemberMenu.java                  ●  submenu de membros
 │   ├── EmployeeMenu.java                ●  submenu de funcionários
 │   ├── LoanMenu.java                    ●  submenu de empréstimos
-│   └── ConsoleInput.java                ●  leitura e validação da entrada digitada
+│   ├── ConsoleInput.java                ●  leitura e validação da entrada digitada
+│   └── SampleData.java                  ●  cenário de exemplo da demonstração
 ├── interfaces/
 │   ├── Describable.java                 ●  contrato: sei me descrever
 │   └── Borrowable.java                  ●  contrato: posso ser emprestado
@@ -47,9 +48,10 @@ library-management/src/
 ```
 
 `●` implementado · `◐` esqueleto · `○` a implementar — a árvore inteira está em `●`.
-O ponto de entrada é `Main`: ele cadastra dois livros e um membro de exemplo e
-chama `LibraryMenu.start()`. Os funcionários começam vazios — são cadastrados
-pelo menu, como qualquer outro dado.
+O ponto de entrada é `Main`: cria a `Library`, pede a `SampleData` o cenário da
+demonstração — dois livros e um membro — e chama `LibraryMenu.start()`. Os
+funcionários começam vazios: são cadastrados pelo menu, como qualquer outro
+dado.
 
 **Por que os subpacotes:** `entities` chegaria a nove classes num diretório só.
 Agrupar por subdomínio deixa em cada pasta o que muda junto — as três classes de
