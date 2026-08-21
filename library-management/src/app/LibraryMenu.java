@@ -2,7 +2,6 @@ package app;
 
 import entities.loan.Loan;
 import entities.person.Employee;
-import entities.person.Member;
 import exceptions.LibraryException;
 import services.Library;
 
@@ -16,11 +15,13 @@ public class LibraryMenu extends Menu {
 
     private final Library library;
     private final BookMenu bookMenu;
+    private final MemberMenu memberMenu;
 
     public LibraryMenu(Library library) {
         super(new ConsoleInput());
         this.library = library;
         this.bookMenu = new BookMenu(library.getBookService(), input);
+        this.memberMenu = new MemberMenu(library.getMemberService(), input);
     }
 
     @Override
@@ -55,7 +56,7 @@ public class LibraryMenu extends Menu {
                 bookMenu.start();
                 break;
             case 2:
-                memberMenu();
+                memberMenu.start();
                 break;
             case 3:
                 loanMenu();
@@ -64,39 +65,6 @@ public class LibraryMenu extends Menu {
                 employeeMenu();
                 break;
         }
-    }
-
-    private void memberMenu() {
-        int option;
-        do {
-            System.out.println();
-            System.out.println("----- MEMBROS -----");
-            System.out.println("1 - Cadastrar membro");
-            System.out.println("2 - Editar membro");
-            System.out.println("3 - Listar membros");
-            System.out.println("0 - Voltar");
-            option = input.readInt("Escolha uma opção: ");
-
-            try {
-                switch (option) {
-                    case 1:
-                        registerMember();
-                        break;
-                    case 2:
-                        updateMember();
-                        break;
-                    case 3:
-                        listMembers();
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        System.out.println("Opção inválida.");
-                }
-            } catch (LibraryException e) {
-                System.out.println("Erro: " + e.getMessage());
-            }
-        } while (option != 0);
     }
 
     private void employeeMenu() {
@@ -168,32 +136,6 @@ public class LibraryMenu extends Menu {
             }
         } while (option != 0);
     }
-    private void registerMember() {
-        System.out.println();
-        String id = input.readText("Matrícula: ");
-        String name = input.readText("Nome: ");
-        String email = input.readText("Email: ");
-
-        library.getMemberService().register(new Member(id, name, email));
-        System.out.println("Membro cadastrado com sucesso.");
-    }
-
-    private void updateMember() {
-        System.out.println();
-        String id = input.readText("Matrícula do membro: ");
-        String name = input.readText("Novo nome: ");
-        String email = input.readText("Novo email: ");
-
-        library.getMemberService().update(id, name, email);
-        System.out.println("Membro atualizado com sucesso.");
-    }
-
-    private void listMembers() {
-        System.out.println();
-        System.out.println("Membros cadastrados:");
-        describeAll(library.getMemberService().list());
-    }
-
     private void registerEmployee() {
         System.out.println();
         String id = input.readText("Matrícula: ");
