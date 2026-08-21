@@ -1,8 +1,5 @@
 package app;
 
-import entities.book.Book;
-import entities.book.Ebook;
-import entities.book.PhysicalBook;
 import entities.loan.Loan;
 import entities.person.Employee;
 import entities.person.Member;
@@ -18,10 +15,12 @@ import services.Library;
 public class LibraryMenu extends Menu {
 
     private final Library library;
+    private final BookMenu bookMenu;
 
     public LibraryMenu(Library library) {
         super(new ConsoleInput());
         this.library = library;
+        this.bookMenu = new BookMenu(library.getBookService(), input);
     }
 
     @Override
@@ -53,7 +52,7 @@ public class LibraryMenu extends Menu {
     protected void execute(int option) {
         switch (option) {
             case 1:
-                bookMenu();
+                bookMenu.start();
                 break;
             case 2:
                 memberMenu();
@@ -65,45 +64,6 @@ public class LibraryMenu extends Menu {
                 employeeMenu();
                 break;
         }
-    }
-
-    private void bookMenu() {
-        int option;
-        do {
-            System.out.println();
-            System.out.println("----- LIVROS -----");
-            System.out.println("1 - Incluir livro");
-            System.out.println("2 - Editar livro");
-            System.out.println("3 - Remover livro");
-            System.out.println("4 - Listar livros");
-            System.out.println("0 - Voltar");
-            option = input.readInt("Escolha uma opção: ");
-
-            try {
-                switch (option) {
-                    case 1:
-                        addBook();
-                        break;
-                    case 2:
-                        updateBook();
-                        break;
-                    case 3:
-                        removeBook();
-                        break;
-                    case 4:
-                        listBooks();
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        System.out.println("Opção inválida.");
-                }
-            } catch (LibraryException e) {
-                // Um catch só para BookNotFoundException, BookUnavailableException
-                // e qualquer outro erro do domínio: todos são LibraryException.
-                System.out.println("Erro: " + e.getMessage());
-            }
-        } while (option != 0);
     }
 
     private void memberMenu() {
@@ -208,62 +168,6 @@ public class LibraryMenu extends Menu {
             }
         } while (option != 0);
     }
-
-    // Incluir livro: o tipo escolhido define qual subclasse de Book é criada, e
-    // daí em diante o serviço trata as duas da mesma forma.
-    private void addBook() {
-        System.out.println();
-        System.out.println("1 - Livro físico");
-        System.out.println("2 - Ebook");
-        int type = input.readInt("Tipo do livro: ");
-
-        if (type != 1 && type != 2) {
-            System.out.println("Tipo inválido.");
-            return;
-        }
-
-        String code = input.readText("Código: ");
-        String title = input.readText("Título: ");
-        String author = input.readText("Autor: ");
-        int numberOfPages = input.readInt("Páginas: ");
-
-        Book book;
-        if (type == 1) {
-            double weight = input.readDouble("Peso (g): ");
-            book = new PhysicalBook(code, title, author, numberOfPages, weight);
-        } else {
-            double fileSize = input.readDouble("Tamanho do arquivo (MB): ");
-            book = new Ebook(code, title, author, numberOfPages, fileSize);
-        }
-
-        library.getBookService().add(book);
-        System.out.println("Livro incluído com sucesso.");
-    }
-
-    private void updateBook() {
-        System.out.println();
-        String code = input.readText("Código do livro: ");
-        String title = input.readText("Novo título: ");
-        String author = input.readText("Novo autor: ");
-
-        library.getBookService().update(code, title, author);
-        System.out.println("Livro atualizado com sucesso.");
-    }
-
-    private void removeBook() {
-        System.out.println();
-        String code = input.readText("Código do livro: ");
-
-        library.getBookService().remove(code);
-        System.out.println("Livro removido com sucesso.");
-    }
-
-    private void listBooks() {
-        System.out.println();
-        System.out.println("Livros cadastrados:");
-        describeAll(library.getBookService().list());
-    }
-
     private void registerMember() {
         System.out.println();
         String id = input.readText("Matrícula: ");
