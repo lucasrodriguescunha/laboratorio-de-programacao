@@ -7,70 +7,64 @@ import entities.loan.Loan;
 import entities.person.Employee;
 import entities.person.Member;
 import exceptions.LibraryException;
-import interfaces.Describable;
 import services.Library;
 
-import java.util.List;
-
 /**
- * Menu de console: a interface com o usuário do sistema.
+ * Menu principal: o ponto de entrada da interface com o usuário.
  *
- * Organiza as funcionalidades em submenus, um por grupo do enunciado:
- *   bookMenu()      incluir, editar, remover e listar livros
- *   memberMenu()    cadastrar, editar e listar membros
- *   loanMenu()      realizar, encerrar e listar empréstimos
- *   employeeMenu()  cadastrar, editar e listar funcionários
- *
- * É o único lugar do sistema que captura exceções: cada submenu tem um
- * catch (LibraryException) que exibe a mensagem e devolve o usuário ao menu.
- * Como todos os erros do domínio herdam desse tipo, um catch cobre todos os
- * casos — polimorfismo aplicado ao tratamento de erros.
+ * Não executa nenhuma funcionalidade por conta própria — exibe os grupos do
+ * enunciado e encaminha para o submenu de cada um.
  */
-public class LibraryMenu {
+public class LibraryMenu extends Menu {
 
     private final Library library;
-    private final ConsoleInput input;
 
     public LibraryMenu(Library library) {
+        super(new ConsoleInput());
         this.library = library;
-        this.input = new ConsoleInput();
     }
 
-    /**
-     * Exibe o menu principal e encaminha para os submenus até o usuário sair.
-     */
-    public void start() {
-        int option;
-        do {
-            System.out.println();
-            System.out.println("===== BIBLIOTECA =====");
-            System.out.println("1 - Livros");
-            System.out.println("2 - Membros");
-            System.out.println("3 - Empréstimos");
-            System.out.println("4 - Funcionários");
-            System.out.println("0 - Sair");
-            option = input.readInt("Escolha uma opção: ");
+    @Override
+    protected String title() {
+        return "===== BIBLIOTECA =====";
+    }
 
-            switch (option) {
-                case 1:
-                    bookMenu();
-                    break;
-                case 2:
-                    memberMenu();
-                    break;
-                case 3:
-                    loanMenu();
-                    break;
-                case 4:
-                    employeeMenu();
-                    break;
-                case 0:
-                    System.out.println("Até logo!");
-                    break;
-                default:
-                    System.out.println("Opção inválida.");
-            }
-        } while (option != 0);
+    @Override
+    protected String[] options() {
+        return new String[]{
+                "Livros",
+                "Membros",
+                "Empréstimos",
+                "Funcionários"
+        };
+    }
+
+    @Override
+    protected String exitLabel() {
+        return "Sair";
+    }
+
+    @Override
+    protected void onExit() {
+        System.out.println("Até logo!");
+    }
+
+    @Override
+    protected void execute(int option) {
+        switch (option) {
+            case 1:
+                bookMenu();
+                break;
+            case 2:
+                memberMenu();
+                break;
+            case 3:
+                loanMenu();
+                break;
+            case 4:
+                employeeMenu();
+                break;
+        }
     }
 
     private void bookMenu() {
@@ -359,21 +353,5 @@ public class LibraryMenu {
         System.out.println();
         System.out.println("Empréstimos do membro:");
         describeAll(library.getLoanService().listByMember(memberId));
-    }
-
-    /**
-     * Lista qualquer coleção de objetos que saibam se descrever. As três
-     * listagens do sistema — livros, membros e empréstimos — passam por aqui,
-     * sem nenhum teste de tipo: cada objeto imprime a si mesmo.
-     */
-    private void describeAll(List<? extends Describable> items) {
-        if (items.isEmpty()) {
-            System.out.println("Nenhum registro encontrado.");
-            return;
-        }
-        for (Describable item : items) {
-            System.out.println();
-            item.description();
-        }
     }
 }
