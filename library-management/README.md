@@ -43,8 +43,9 @@ Os funcionários começam vazios: são cadastrados pelo menu, em
 
 ## Funcionalidades implementadas
 
-Todas são acessadas pelo menu de console (`LibraryMenu`), organizado nos grupos
-do enunciado mais o cadastro de funcionários.
+Todas são acessadas pelo menu de console. O `LibraryMenu` exibe os grupos do
+enunciado, mais o cadastro de funcionários, e encaminha para o submenu de cada
+um: `BookMenu`, `MemberMenu`, `EmployeeMenu` e `LoanMenu`.
 
 ### Gerenciamento de Livros — `BookService`
 
@@ -90,8 +91,9 @@ descrição diferentes do membro.
 ## Tratamento de erros
 
 Todas as exceções do domínio herdam de `LibraryException`, e o menu é o **único**
-lugar que as captura — um `catch (LibraryException e)` por submenu, exibindo a
-mensagem e devolvendo o usuário ao menu.
+lugar que as captura: um `catch (LibraryException e)` em `Menu.start()`, que
+atende a qualquer opção de qualquer submenu, exibe a mensagem e devolve o
+usuário ao menu.
 
 | Situação | Exceção | Mensagem exibida |
 |---|---|---|
@@ -180,9 +182,12 @@ Resumo — o detalhamento, com os diagramas, está na seção 6 de
 - **Encapsulamento** — atributos `private` com acesso por getters/setters; os
   setters validam (páginas, peso e salário nunca ficam negativos) e o campo
   `available` só muda por `borrow()` e `giveBack()`.
-- **Polimorfismo** — o método `describeAll()` do menu lista livros, membros e
-  empréstimos com o mesmo código, sem `if` de tipo; `Ebook` sobrescreve
-  `isAvailable()` mudando a regra, não só o texto impresso.
+- **Polimorfismo** — o método `describeAll()` de `Menu` lista livros, membros,
+  funcionários e empréstimos com o mesmo código, sem `if` de tipo; `Ebook`
+  sobrescreve `isAvailable()` mudando a regra, não só o texto impresso.
+- **Template Method** — `Menu` guarda o roteiro comum a todos os menus (exibir,
+  ler, executar, repetir); cada submenu declara só o título, as opções e o que
+  cada uma faz.
 - **Interfaces** — `Describable` (sei me descrever) e `Borrowable` (posso ser
   emprestado) representam capacidades: `Loan` se descreve, mas não é emprestável.
 - **Exceções** — hierarquia de `LibraryException`, capturada em um único ponto.
@@ -192,7 +197,8 @@ Resumo — o detalhamento, com os diagramas, está na seção 6 de
 ```
 src/
 ├── Main.java              ponto de entrada: popula a biblioteca e abre o menu
-├── app/                   menu de console
+├── app/                   Menu (roteiro comum), o menu principal, os quatro
+│                          submenus e ConsoleInput
 ├── interfaces/            Describable, Borrowable
 ├── entities/              book/, person/, loan/ — o modelo de domínio
 ├── services/              Library (fachada) e os quatro serviços
