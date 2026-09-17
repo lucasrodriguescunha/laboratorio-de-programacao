@@ -3,7 +3,7 @@
 Projeto em Java com Swing — Laboratório de Programação.
 Formulário desktop que cadastra uma pessoa — **CPF**, **nome**, **endereço**,
 **estado** e **cargo** — e mostra os dados digitados em uma janela à parte
-quando o usuário clica em **Imprimir**.
+quando o usuário clica em **Imprimir Dados**.
 
 ## Como executar
 

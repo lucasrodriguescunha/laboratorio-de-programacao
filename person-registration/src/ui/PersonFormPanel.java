@@ -33,7 +33,7 @@ public class PersonFormPanel extends JPanel {
         stateCombo.setSelectedIndex(-1);
         roleCombo = new JComboBox<>(Role.values());
         roleCombo.setSelectedIndex(-1);
-        printButton = new JButton("Imprimir");
+        printButton = new JButton("Imprimir Dados");
 
         addRow(gbc, 0, "CPF:", cpfField);
         addRow(gbc, 1, "Nome:", nameField);
