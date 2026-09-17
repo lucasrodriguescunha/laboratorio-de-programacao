@@ -35,12 +35,4 @@ public class Person {
     public Role getRole() {
         return role;
     }
-
-    public String formatted() {
-        return "CPF: " + cpf + "\n"
-                + "Nome: " + name + "\n"
-                + "Endereço: " + address + "\n"
-                + "Estado: " + (state != null ? state.getName() : "") + "\n"
-                + "Cargo: " + (role != null ? role.getDescription() : "");
-    }
 }
