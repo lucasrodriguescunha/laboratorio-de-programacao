@@ -32,8 +32,8 @@ enquanto o usuário digita. Estado e cargo são `JComboBox` preenchidos a partir
 dos enums `State` e `Role` — adicionar uma opção nova é só acrescentar uma
 constante ao enum, nada no formulário muda.
 
-Ao clicar em **Imprimir**, o painel monta um `Person` com o que está nos campos
-e abre um `JDialog` somente leitura com o texto formatado.
+Ao clicar em **Imprimir Dados**, o painel monta um `Person` com o que está nos
+campos e abre um `JOptionPane` de mensagem com o texto formatado.
 
 ## Estrutura do projeto
 
@@ -48,5 +48,5 @@ src/
 │   └── State.java                 enum dos estados brasileiros
 └── ui/
     ├── PersonFormPanel.java       o painel (JPanel): campos, layout e botão
-    └── ResultDialog.java          o diálogo (JDialog) que exibe os dados
+    └── ResultDialog.java          exibe os dados em um JOptionPane de mensagem
 ```
