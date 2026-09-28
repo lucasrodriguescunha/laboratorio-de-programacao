@@ -140,8 +140,6 @@ public class Janela extends JFrame {
         jbAtualizar.setEnabled(false);
         getContentPane().add(jbAtualizar);
 
-        // O enunciado indica x = 225, mas isso sobrepõe o botão Atualizar (145 + 100 = 245).
-        // Usamos 255 para manter o espaçamento de 10 px entre os botões, como na figura.
         jbFechar = new JButton("Fechar");
         jbFechar.setSize(100, 23);
         jbFechar.setLocation(255, 190);
