@@ -3,17 +3,6 @@ package app;
 import entities.Account;
 import exceptions.BankException;
 
-/**
- * Menu de console da conta: creditar, debitar, consultar saldo, encerrar e sair.
- *
- * O menu só conversa com o usuário — pergunta a opção, lê os valores e exibe as
- * respostas. Quem decide se a operação é permitida é a conta: as regras estão
- * na entidade, não aqui.
- *
- * É também o único lugar que captura as exceções do domínio: como todas herdam
- * de BankException, um único catch atende a qualquer opção, exibe a mensagem e
- * devolve o usuário ao menu.
- */
 public class AccountMenu {
 
     private final Account account;
@@ -24,10 +13,6 @@ public class AccountMenu {
         this.input = input;
     }
 
-    /**
-     * Exibe o menu e atende as escolhas até o usuário encerrar a conta (4) ou
-     * sair (5).
-     */
     public void start() {
         boolean running = true;
 
@@ -48,9 +33,6 @@ public class AccountMenu {
                         break;
                     case 4:
                         closeAccount();
-                        // Só chega aqui se o encerramento deu certo: se a conta
-                        // estiver negativa, a exceção pula esta linha e o menu
-                        // continua aberto.
                         running = false;
                         break;
                     case 5:
