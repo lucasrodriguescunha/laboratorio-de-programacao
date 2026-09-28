@@ -5,19 +5,8 @@ import entities.book.PhysicalBook;
 import entities.person.Member;
 import services.Library;
 
-/**
- * Dados de exemplo da demonstração: um ebook, um livro físico e um membro,
- * para que o menu já abra com o que listar e emprestar. Os funcionários
- * começam vazios e são cadastrados pelo menu.
- *
- * Fica separado do Main para que o ponto de entrada trate só de montar e abrir
- * a aplicação: o cenário é um detalhe substituível, que pode mudar ou deixar
- * de ser carregado sem que o Main mude.
- */
 public class SampleData {
 
-    // Classe utilitária: só existe pelo método estático, não faz sentido
-    // instanciá-la.
     private SampleData() {
     }
 

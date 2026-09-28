@@ -3,10 +3,6 @@ package app;
 import entities.person.Employee;
 import services.EmployeeService;
 
-/**
- * Submenu de funcionários: cadastrar, editar e listar quem trabalha na
- * biblioteca.
- */
 public class EmployeeMenu extends Menu {
 
     private final EmployeeService employeeService;

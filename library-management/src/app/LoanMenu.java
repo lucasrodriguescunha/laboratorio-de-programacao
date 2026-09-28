@@ -3,13 +3,6 @@ package app;
 import entities.loan.Loan;
 import services.LoanService;
 
-/**
- * Submenu de empréstimos: realizar, encerrar e listar os empréstimos.
- *
- * Depende só do LoanService, mesmo tratando de livros e membros: é o serviço
- * que conhece a regra completa e localiza os dois pelos identificadores
- * digitados aqui.
- */
 public class LoanMenu extends Menu {
 
     private final LoanService loanService;

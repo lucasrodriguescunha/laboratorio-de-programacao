@@ -5,12 +5,6 @@ import entities.book.Ebook;
 import entities.book.PhysicalBook;
 import services.BookService;
 
-/**
- * Submenu de livros: incluir, editar, remover e listar o acervo.
- *
- * Recebe apenas o BookService, e não a biblioteca inteira: é o único serviço
- * de que precisa para atender as suas opções.
- */
 public class BookMenu extends Menu {
 
     private final BookService bookService;
@@ -53,8 +47,6 @@ public class BookMenu extends Menu {
         }
     }
 
-    // Incluir livro: o tipo escolhido define qual subclasse de Book é criada, e
-    // daí em diante o serviço trata as duas da mesma forma.
     private void add() {
         System.out.println();
         System.out.println("1 - Livro físico");

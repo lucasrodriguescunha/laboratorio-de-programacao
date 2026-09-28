@@ -2,14 +2,6 @@ package app;
 
 import services.Library;
 
-/**
- * Menu principal: o ponto de entrada da interface com o usuário.
- *
- * Não executa nenhuma funcionalidade por conta própria — exibe os grupos do
- * enunciado e encaminha para o submenu de cada um. É também o único ponto que
- * conversa com a fachada Library: cada submenu recebe daqui apenas o serviço
- * de que precisa.
- */
 public class LibraryMenu extends Menu {
 
     private final BookMenu bookMenu;
@@ -18,8 +10,6 @@ public class LibraryMenu extends Menu {
     private final EmployeeMenu employeeMenu;
 
     public LibraryMenu(Library library) {
-        // O ConsoleInput criado aqui é repassado aos submenus, para que todos
-        // leiam do mesmo Scanner.
         super(new ConsoleInput());
         this.bookMenu = new BookMenu(library.getBookService(), input);
         this.memberMenu = new MemberMenu(library.getMemberService(), input);

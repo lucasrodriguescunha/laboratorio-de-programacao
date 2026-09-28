@@ -3,10 +3,6 @@ package app;
 import entities.person.Member;
 import services.MemberService;
 
-/**
- * Submenu de membros: cadastrar, editar e listar quem pode tomar livros
- * emprestados.
- */
 public class MemberMenu extends Menu {
 
     private final MemberService memberService;
