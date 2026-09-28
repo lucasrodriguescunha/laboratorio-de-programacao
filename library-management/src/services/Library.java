@@ -1,12 +1,5 @@
 package services;
 
-/**
- * Fachada da biblioteca: reúne os serviços num único objeto.
- *
- * O menu conversa só com esta classe, e é ela que garante que BookService,
- * MemberService e LoanService compartilhem as mesmas listas — LoanService
- * recebe no construtor exatamente os serviços criados aqui.
- */
 public class Library {
 
     private final BookService bookService;

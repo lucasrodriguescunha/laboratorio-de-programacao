@@ -8,18 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Gerenciamento de Membros — funcionalidade do enunciado.
- *
- * Funcionalidades implementadas:
- *   register(Member)                   cadastrar membro
- *   update(matrícula, nome, email)     editar membro existente
- *   list()                             listar todos os membros
- *   findById(matrícula)                localizar um membro pela matrícula
- *
- * A matrícula é única e serve de identificador nas demais operações — é por ela
- * que LoanService encontra o membro ao realizar um empréstimo.
- */
 public class MemberService {
 
     private final List<Member> members = new ArrayList<>();
@@ -41,7 +29,6 @@ public class MemberService {
         member.setEmail(email);
     }
 
-    // Somente leitura: o cadastro só muda por register().
     public List<Member> list() {
         return Collections.unmodifiableList(members);
     }

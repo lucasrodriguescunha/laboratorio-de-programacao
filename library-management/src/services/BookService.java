@@ -9,24 +9,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Gerenciamento de Livros — funcionalidade do enunciado.
- *
- * Funcionalidades implementadas:
- *   add(Book)                          incluir livro no acervo
- *   update(código, título, autor)      editar livro existente
- *   remove(código)                     remover livro do acervo
- *   list()                             listar todos os livros
- *   findByCode(código)                 localizar um livro pelo código
- *
- * A entidade Book cuida do próprio estado; este serviço cuida da coleção e das
- * regras que dependem dela, como não aceitar dois livros com o mesmo código.
- */
 public class BookService {
 
     private final List<Book> books = new ArrayList<>();
 
-    // O código identifica o livro nas demais operações, então precisa ser único.
     public void add(Book book) {
         for (Book existing : books) {
             if (existing.getCode().equalsIgnoreCase(book.getCode())) {
@@ -44,8 +30,6 @@ public class BookService {
         book.setAuthor(author);
     }
 
-    // Regra de negócio: livro emprestado não sai do acervo, senão o empréstimo
-    // em aberto passaria a apontar para um livro que não existe mais.
     public void remove(String code) {
         Book book = findByCode(code);
         if (!book.isAvailable()) {
@@ -56,8 +40,6 @@ public class BookService {
         books.remove(book);
     }
 
-    // Encapsulamento: devolve uma view somente leitura, para que a lista interna
-    // só possa ser alterada por add() e remove().
     public List<Book> list() {
         return Collections.unmodifiableList(books);
     }

@@ -8,19 +8,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Gerenciamento de Funcionários.
- *
- * Funcionalidades implementadas:
- *   register(Employee)                              cadastrar funcionário
- *   update(matrícula, nome, email, cargo, salário)  editar funcionário existente
- *   list()                                          listar todos os funcionários
- *   findById(matrícula)                             localizar pela matrícula
- *
- * Mesmas regras do cadastro de membros: a matrícula é única e identifica o
- * funcionário nas demais operações. O funcionário não toma livros emprestados,
- * então LoanService não conhece este serviço.
- */
 public class EmployeeService {
 
     private final List<Employee> employees = new ArrayList<>();
@@ -44,7 +31,6 @@ public class EmployeeService {
         employee.setSalary(salary);
     }
 
-    // Somente leitura: o cadastro só muda por register().
     public List<Employee> list() {
         return Collections.unmodifiableList(employees);
     }

@@ -11,20 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Gerenciamento de Empréstimos — funcionalidade do enunciado.
- *
- * Funcionalidades implementadas:
- *   create(matrícula, código, dias)    realizar empréstimo
- *   close(número)                      encerrar empréstimo (devolução)
- *   list()                             listar todos os empréstimos
- *   listByMember(matrícula)            listar os empréstimos de um membro
- *   findById(número)                   localizar um empréstimo pelo número
- *
- * É o único ponto que conhece a regra completa do empréstimo, porque ela
- * envolve dois objetos ao mesmo tempo: o livro precisa estar disponível e o
- * membro precisa estar abaixo do limite.
- */
 public class LoanService {
 
     private final List<Loan> loans = new ArrayList<>();
@@ -37,11 +23,6 @@ public class LoanService {
         this.memberService = memberService;
     }
 
-    /**
-     * Realiza um empréstimo validando, nesta ordem: membro existe, livro
-     * existe, membro abaixo do limite e livro disponível. Cada falha lança a
-     * exceção correspondente, que o menu captura e exibe.
-     */
     public Loan create(String memberId, String bookCode, int days) {
         if (days <= 0) {
             throw new LibraryException("O prazo do empréstimo deve ser de pelo menos um dia.");
@@ -56,9 +37,6 @@ public class LoanService {
             );
         }
 
-        // borrow() é quem verifica a disponibilidade: se o livro já estiver
-        // emprestado, lança BookUnavailableException antes de o contador do
-        // membro ser alterado.
         book.borrow();
         member.registerLoan();
 
@@ -70,10 +48,6 @@ public class LoanService {
         return loan;
     }
 
-    /**
-     * Encerra o empréstimo e desfaz seus efeitos, no caminho inverso do
-     * create(): marca a devolução, libera o livro e baixa o contador do membro.
-     */
     public void close(int id) {
         Loan loan = findById(id);
         loan.close(LocalDate.now());
@@ -85,8 +59,6 @@ public class LoanService {
         return Collections.unmodifiableList(loans);
     }
 
-    // findById valida a matrícula antes de filtrar: matrícula inexistente vira
-    // erro com mensagem, e não uma lista vazia que parece "nenhum empréstimo".
     public List<Loan> listByMember(String memberId) {
         Member member = memberService.findById(memberId);
         List<Loan> result = new ArrayList<>();
