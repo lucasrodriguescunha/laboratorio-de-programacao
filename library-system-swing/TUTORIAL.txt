@@ -1,0 +1,109 @@
+SISTEMA DE BIBLIOTECA - TUTORIAL DE NAVEGAÇÃO
+=============================================
+
+1. COMO EXECUTAR
+----------------
+- Abra a pasta laboratorio-de-programacao no IntelliJ IDEA; o sistema
+  é o módulo library-system-swing.
+- Execute a classe principal "Main" (fica em src/Main.java).
+- Para executar pelo terminal, veja o README.md.
+- O sistema já inicia com alguns livros e membros de exemplo.
+
+Observação: os dados ficam em memória (ArrayList). Ao fechar o
+programa, tudo o que foi cadastrado é perdido.
+
+
+2. TELA PRINCIPAL (MENU)
+------------------------
+Ao abrir o sistema aparece o menu com quatro botões:
+- Gerenciamento de Livros
+- Gerenciamento de Membros
+- Gerenciamento de Empréstimos
+- Sair (encerra o programa)
+
+Cada botão abre a tela correspondente. Para voltar ao menu, basta
+fechar a tela aberta no "X" da janela.
+
+
+3. GERENCIAMENTO DE LIVROS
+--------------------------
+Cadastrar:
+  1. Preencha Título, Autor, Ano e ISBN e escolha o Tipo (Físico ou E-book).
+     O ID é gerado automaticamente pelo sistema.
+  2. Clique em "Cadastrar livro". O livro aparece na tabela.
+
+Editar:
+  1. Clique em um livro na tabela; os dados vão para o formulário.
+  2. Altere o que precisar e clique em "Editar selecionado".
+  (O tipo do livro não pode ser alterado na edição.)
+
+Remover:
+  1. Selecione o livro na tabela e clique em "Remover livro".
+  2. Confirme na janela de confirmação.
+  (Livros emprestados não podem ser removidos.)
+
+"Limpar campos" esvazia o formulário e desmarca a tabela.
+
+Regras:
+- Título: obrigatório, até 150 caracteres.
+- Autor: obrigatório, até 150 caracteres, somente letras.
+- Ano: 4 dígitos (AAAA), entre 1450 e o ano atual.
+- ISBN: padrão brasileiro ISBN-13, com prefixo 978-65 ou 978-85 e
+  dígito verificador válido. A máscara é aplicada ao digitar
+  (ex.: 978-65-5520001-0). Vale para livro físico e e-book.
+- Não pode haver dois livros com o mesmo ISBN.
+
+
+4. GERENCIAMENTO DE MEMBROS
+---------------------------
+Cadastrar:
+  1. Preencha Nome, Matrícula e Contato.
+  2. Clique em "Cadastrar membro".
+
+Editar:
+  1. Clique em um membro na tabela.
+  2. Altere os dados e clique em "Editar membro".
+
+Ativar / Inativar:
+  1. Selecione o membro na tabela.
+  2. Clique em "Inativar membro" (ou "Ativar membro", se ele estiver inativo).
+  Membros NÃO podem ser excluídos, apenas inativados. Membro inativo
+  não aparece na tela de empréstimos, e não é possível inativar um
+  membro que tenha empréstimo ativo.
+
+Listar: a tabela mostra todos os membros (com ID e situação) e é
+atualizada automaticamente; o botão "Listar membros" recarrega a lista.
+
+Regras:
+- Nome: obrigatório, até 150 caracteres.
+- Matrícula: somente números, até 20 dígitos, sem repetição.
+- Contato: telefone com máscara brasileira, aplicada ao digitar:
+  celular (DD) 9XXXX-XXXX ou fixo (DD) XXXX-XXXX.
+
+
+5. GERENCIAMENTO DE EMPRÉSTIMOS
+-------------------------------
+Realizar empréstimo:
+  1. Escolha o livro no primeiro campo (só aparecem livros disponíveis).
+  2. Escolha o membro no segundo campo (só aparecem membros ativos).
+  3. Clique em "Realizar empréstimo".
+  O livro passa a constar como "Emprestado" e sai da lista de disponíveis.
+
+Encerrar empréstimo:
+  1. Selecione um empréstimo ATIVO na tabela.
+  2. Clique em "Encerrar empréstimo selecionado".
+  A data de devolução é registrada e o livro volta a ficar disponível.
+
+Listar: use o campo "Listar empréstimos" para ver Todos, somente os
+Ativos ou somente os Finalizados.
+
+
+6. ROTEIRO SUGERIDO PARA O VÍDEO
+--------------------------------
+1. Abrir o sistema e mostrar o menu.
+2. Livros: cadastrar um livro, editar e mostrar as validações
+   (ISBN estrangeiro ou repetido, autor com número, ano futuro).
+3. Membros: cadastrar um membro, editar o contato e inativar/ativar.
+4. Empréstimos: emprestar o livro novo ao membro novo.
+5. Voltar em Livros e mostrar a situação "Emprestado"; tentar removê-lo.
+6. Encerrar o empréstimo e filtrar por Ativos / Finalizados.
