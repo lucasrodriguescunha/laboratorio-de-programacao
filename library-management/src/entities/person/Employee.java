@@ -1,12 +1,5 @@
 package entities.person;
 
-/**
- * Funcionário da biblioteca, com cargo e salário.
- *
- * Existe para mostrar que a hierarquia de Person atende a dois tipos de pessoa
- * com dados e descrição diferentes: o funcionário não toma livros emprestados,
- * então não tem contador de empréstimos como o membro.
- */
 public class Employee extends Person {
 
     private String role;

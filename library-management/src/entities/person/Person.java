@@ -2,13 +2,6 @@ package entities.person;
 
 import interfaces.Describable;
 
-/**
- * Classe base abstrata das pessoas do sistema.
- *
- * Reúne o que membro e funcionário têm em comum: identificação, nome e email.
- * É abstrata porque "pessoa genérica" não existe no domínio — quem usa a
- * biblioteca é membro, quem trabalha nela é funcionário.
- */
 public abstract class Person implements Describable {
 
     private final String id;

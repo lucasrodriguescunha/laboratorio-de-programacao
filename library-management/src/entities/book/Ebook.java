@@ -1,12 +1,5 @@
 package entities.book;
 
-/**
- * Livro digital, com o tamanho do arquivo em MB.
- *
- * Diferença de comportamento em relação ao livro físico: cópia digital não se
- * esgota, então isAvailable() é sobrescrito para sempre responder true. É
- * polimorfismo mudando a regra, não apenas o texto impresso.
- */
 public class Ebook extends Book {
 
     private double fileSize;
@@ -24,7 +17,6 @@ public class Ebook extends Book {
         this.fileSize = Math.max(fileSize, 0);
     }
 
-    // Sempre disponível: vários membros podem tomar o mesmo ebook emprestado.
     @Override
     public boolean isAvailable() {
         return true;

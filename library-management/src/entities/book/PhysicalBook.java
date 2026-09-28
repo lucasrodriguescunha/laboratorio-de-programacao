@@ -1,11 +1,5 @@
 package entities.book;
 
-/**
- * Livro físico: o exemplar de papel, com peso em gramas.
- *
- * Herda de Book toda a regra de disponibilidade — como existe um exemplar só,
- * emprestá-lo o deixa indisponível até a devolução.
- */
 public class PhysicalBook extends Book {
 
     private double weight;

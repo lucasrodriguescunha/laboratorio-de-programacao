@@ -1,11 +1,5 @@
 package entities.person;
 
-/**
- * Membro da biblioteca: a pessoa que pode tomar livros emprestados.
- *
- * Funcionalidade própria: controlar quantos empréstimos ativos possui, para
- * impedir que ultrapasse o limite definido em MAX_ACTIVE_LOANS.
- */
 public class Member extends Person {
 
     private static final int MAX_ACTIVE_LOANS = 3;
@@ -20,7 +14,6 @@ public class Member extends Person {
         return activeLoans;
     }
 
-    // Consultado por LoanService antes de criar um empréstimo.
     public boolean canBorrow() {
         return activeLoans < MAX_ACTIVE_LOANS;
     }
@@ -29,7 +22,6 @@ public class Member extends Person {
         this.activeLoans++;
     }
 
-    // Math.max protege o contador: nem uma devolução repetida o deixa negativo.
     public void registerReturn() {
         this.activeLoans = Math.max(activeLoans - 1, 0);
     }

@@ -7,16 +7,6 @@ import interfaces.Describable;
 
 import java.time.LocalDate;
 
-/**
- * Empréstimo: associa um livro a um membro, com data de saída, prazo de
- * devolução e situação (ativo ou encerrado).
- *
- * Funcionalidades: encerrar o empréstimo, registrando a data de devolução
- * (close), e informar se está em atraso (isLate).
- *
- * Não herda de Book nem de Person — herança só onde existe relação "é um", e um
- * empréstimo não é um livro nem uma pessoa: ele liga os dois.
- */
 public class Loan implements Describable {
 
     private final int id;
@@ -65,8 +55,6 @@ public class Loan implements Describable {
         return loanStatus;
     }
 
-    // Regra de negócio: só se encerra um empréstimo ativo. Quem chama é o
-    // LoanService, que em seguida devolve o livro e baixa o contador do membro.
     public void close(LocalDate returnDate) {
         if (loanStatus == LoanStatus.CLOSED) {
             throw new LibraryException("O empréstimo " + id + " já está encerrado.");
@@ -75,8 +63,6 @@ public class Loan implements Describable {
         this.loanStatus = LoanStatus.CLOSED;
     }
 
-    // Empréstimo encerrado compara a data de devolução com o prazo; empréstimo
-    // ainda ativo compara com a data de hoje.
     public boolean isLate() {
         LocalDate reference = returnDate != null ? returnDate : LocalDate.now();
         return reference.isAfter(dueDate);
