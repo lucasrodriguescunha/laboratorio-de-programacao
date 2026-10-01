@@ -1,5 +1,13 @@
+// Aluno: Lucas Rodrigues Cunha
 package entities;
 
+/**
+ * Enum com os cargos disponíveis no formulário.
+ *
+ * Cada constante guarda a descrição que aparece na tela. Para incluir um
+ * cargo novo basta acrescentar uma constante aqui: o JComboBox é preenchido
+ * com Role.values(), então o formulário não precisa ser alterado.
+ */
 public enum Role {
     DESENVOLVEDOR_BACKEND("Desenvolvedor Backend"),
     DESENVOLVEDOR_FRONTEND("Desenvolvedor Frontend"),
@@ -30,6 +38,7 @@ public enum Role {
         return description;
     }
 
+    // O JComboBox usa o toString() para exibir cada item da lista.
     @Override
     public String toString() {
         return description;

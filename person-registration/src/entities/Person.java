@@ -1,10 +1,18 @@
+// Aluno: Lucas Rodrigues Cunha
 package entities;
 
+/**
+ * Entidade do modelo: representa a pessoa cadastrada no formulário.
+ *
+ * É imutável: os atributos são final, recebidos no construtor e lidos
+ * apenas pelos getters. Não conhece nada da interface gráfica.
+ */
 public class Person {
 
     private final String cpf;
     private final String name;
     private final String address;
+    // Estado e cargo são enums, então só aceitam os valores previstos.
     private final State state;
     private final Role role;
 

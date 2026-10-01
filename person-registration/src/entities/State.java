@@ -1,5 +1,12 @@
+// Aluno: Lucas Rodrigues Cunha
 package entities;
 
+/**
+ * Enum com os estados brasileiros.
+ *
+ * O nome da constante é a sigla (MG, SP...) e o atributo name guarda o nome
+ * por extenso. O JComboBox do formulário é preenchido com State.values().
+ */
 public enum State {
     AC("Acre"),
     AL("Alagoas"),
@@ -39,6 +46,7 @@ public enum State {
         return name;
     }
 
+    // Texto exibido no JComboBox: nome por extenso e sigla, ex.: "Minas Gerais (MG)".
     @Override
     public String toString() {
         return name + " (" + name() + ")";
