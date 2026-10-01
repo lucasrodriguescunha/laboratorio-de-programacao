@@ -1,0 +1,83 @@
+FORMULÁRIO DE CADASTRO (CPF) - TUTORIAL DE NAVEGAÇÃO
+====================================================
+
+Aluno: Lucas Rodrigues Cunha
+Atividade: ED02 - 02 | 01 Atividade Prática (Formulário CPF)
+
+
+1. COMO EXECUTAR
+----------------
+- Abra a pasta laboratorio-de-programacao no IntelliJ IDEA; o sistema
+  é o módulo person-registration.
+- Execute a classe principal "Main" (fica em src/Main.java).
+- Para executar pelo terminal, veja o README.md.
+- Requer JDK 17 ou superior.
+
+Observação: o sistema não grava os dados. Ele apenas exibe o que foi
+digitado; ao fechar o programa, nada fica salvo.
+
+
+2. A TELA
+---------
+Ao abrir o sistema aparece a janela "Formulário de Cadastro", com
+cinco campos e um botão:
+- CPF
+- Nome
+- Endereço
+- Estado
+- Cargo
+- Botão "Imprimir Dados"
+
+A janela tem tamanho fixo e abre no centro da tela. Para encerrar o
+programa, feche a janela no "X".
+
+
+3. PREENCHENDO O FORMULÁRIO
+---------------------------
+  1. CPF: digite apenas os 11 números. Os pontos e o traço já estão no
+     campo (___.___.___-__) e letras não são aceitas.
+  2. Nome: digite o nome da pessoa.
+  3. Endereço: digite o endereço.
+  4. Estado: clique na lista e escolha um dos estados brasileiros.
+  5. Cargo: clique na lista e escolha um dos cargos.
+
+A tecla Tab passa para o próximo campo e Shift + Tab volta ao anterior.
+
+
+4. IMPRIMINDO OS DADOS
+----------------------
+  1. Com todos os campos preenchidos, clique em "Imprimir Dados".
+  2. Abre uma janela "Mensagem" com o CPF, o nome, o endereço, o estado
+     e o cargo informados.
+  3. Clique em "OK" para fechar a mensagem e voltar ao formulário.
+
+Os campos continuam preenchidos depois da mensagem; é possível alterar
+qualquer um deles e clicar em "Imprimir Dados" de novo.
+
+
+5. VALIDAÇÕES
+-------------
+Todos os campos são obrigatórios. Se algum estiver vazio ao clicar em
+"Imprimir Dados", abre o aviso "Campos obrigatórios" listando tudo o
+que falta, e os dados não são exibidos:
+- CPF é obrigatório e deve estar completo (os 11 dígitos).
+- Nome é obrigatório.
+- Endereço é obrigatório.
+- Estado é obrigatório.
+- Cargo é obrigatório.
+
+Clique em "OK", preencha o que falta e clique em "Imprimir Dados"
+novamente.
+
+Observação: o sistema confere apenas se o CPF tem os 11 dígitos; ele
+não calcula os dígitos verificadores.
+
+
+6. ROTEIRO SUGERIDO PARA O VÍDEO
+--------------------------------
+1. Abrir o sistema e mostrar a janela do formulário.
+2. Clicar em "Imprimir Dados" com tudo vazio e mostrar o aviso.
+3. Digitar o CPF pela metade, clicar no botão e mostrar o aviso do CPF.
+4. Tentar digitar letras no CPF para mostrar a máscara.
+5. Preencher todos os campos, escolhendo estado e cargo nas listas.
+6. Clicar em "Imprimir Dados" e mostrar a mensagem com os dados.
