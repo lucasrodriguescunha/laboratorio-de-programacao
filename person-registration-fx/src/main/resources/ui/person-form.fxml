@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+
+<GridPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ui.PersonFormController"
+          styleClass="form" hgap="12" vgap="12">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <columnConstraints>
+        <ColumnConstraints halignment="RIGHT"/>
+        <ColumnConstraints hgrow="ALWAYS" prefWidth="300"/>
+    </columnConstraints>
+
+    <Label text="CPF:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+    <TextField fx:id="cpfField" promptText="000.000.000-00" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+    <Label text="Nome:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+    <TextField fx:id="nameField" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+    <Label text="Endereço:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+    <TextField fx:id="addressField" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+    <Label text="Estado:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="stateCombo" promptText="Selecione" maxWidth="Infinity"
+              GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+    <Label text="Cargo:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+    <ComboBox fx:id="roleCombo" promptText="Selecione" maxWidth="Infinity"
+              GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+
+    <Button fx:id="printButton" text="Imprimir Dados" defaultButton="true" maxWidth="Infinity"
+            GridPane.rowIndex="5" GridPane.columnIndex="0" GridPane.columnSpan="2">
+        <GridPane.margin>
+            <Insets top="10"/>
+        </GridPane.margin>
+    </Button>
+</GridPane>
