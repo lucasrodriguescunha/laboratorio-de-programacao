@@ -1,5 +1,6 @@
 # Artefatos de compilação
 out/
+target/
 build/
 bin/
 *.class
