@@ -1,0 +1,249 @@
+SISTEMA DE GERENCIAMENTO DE FUNCIONÁRIOS (JDBC + JAVA SWING)
+DOCUMENTO EXPLICATIVO
+============================================================
+
+Aplicação desktop em Java Swing que cadastra, lista, atualiza e exclui
+funcionários em um banco de dados MySQL, usando JDBC. Toda conexão com
+o banco é aberta pela classe ConnectionFactory.
+
+Requisitos: JDK 17 ou superior, MySQL 8 e NetBeans (ou IntelliJ IDEA).
+
+
+1. CRIAR O BANCO DE DADOS
+-------------------------
+Pelo MySQL Workbench:
+  1. Conecte-se ao servidor local (usuário root).
+  2. File > Open SQL Script... e abra sql/create-database.sql.
+  3. Clique no raio (Execute) para rodar o script inteiro.
+  4. (Opcional) Faça o mesmo com sql/sample-data.sql para inserir
+     funcionários de exemplo.
+
+Pela linha de comando (na pasta do projeto):
+  mysql -u root -p < sql/create-database.sql
+  mysql -u root -p < sql/sample-data.sql
+
+O script cria o banco "empresa" e a tabela "funcionarios". Ele usa
+IF NOT EXISTS, então pode ser executado de novo sem apagar dados.
+
+
+2. CONFIGURAR O DRIVER JDBC
+---------------------------
+O JDBC é a API do Java para bancos de dados (pacote java.sql). Ela só
+define interfaces (Connection, PreparedStatement, ResultSet...); quem as
+implementa para o MySQL é o driver "MySQL Connector/J", um arquivo .jar
+que precisa estar no classpath do projeto.
+
+Opção A - Projeto Maven (como este projeto foi entregue):
+  1. O driver já está declarado no pom.xml:
+       <dependency>
+           <groupId>com.mysql</groupId>
+           <artifactId>mysql-connector-j</artifactId>
+           <version>9.1.0</version>
+       </dependency>
+  2. No NetBeans: File > Open Project... e selecione a pasta
+     employee-management (o ícone indica projeto Maven).
+  3. Clique com o botão direito no projeto > Build with Dependencies.
+     O NetBeans baixa o .jar do driver automaticamente (precisa de
+     internet na primeira vez). Ele aparece em "Dependencies".
+
+Opção B - Projeto NetBeans comum (Java with Ant), adicionando o .jar:
+  1. Baixe o driver em https://dev.mysql.com/downloads/connector/j/
+     escolhendo "Platform Independent" (arquivo .zip).
+  2. Extraia o .zip; o arquivo necessário é mysql-connector-j-X.Y.Z.jar.
+  3. No NetBeans, clique com o botão direito em "Libraries" do projeto
+     > Add JAR/Folder... e selecione o .jar.
+  4. Copie as pastas de src/main/java para "Source Packages" e o
+     arquivo src/main/resources/database.properties para o pacote
+     padrão (<default package>) de "Source Packages".
+
+Opção C - IntelliJ IDEA: abra a pasta como projeto Maven; o driver é
+baixado sozinho (ou, sem Maven, File > Project Structure > Libraries > +).
+
+Configurar a conexão:
+  Edite src/main/resources/database.properties:
+    db.url=jdbc:mysql://localhost:3306/empresa?sslMode=DISABLED&allowPublicKeyRetrieval=true
+    db.user=root
+    db.password=SUA_SENHA
+
+  Partes da URL:
+    jdbc:mysql://    protocolo JDBC do driver MySQL
+    localhost:3306   endereço e porta do servidor MySQL
+    empresa          nome do banco de dados
+    sslMode=DISABLED e allowPublicKeyRetrieval=true
+                     permitem conectar a um MySQL 8 local sem certificado
+
+Testar: abra o sistema e clique em "Testar Conexão". A mensagem mostra
+a versão do servidor e do driver. Erros comuns e o que fazer:
+  - "Driver JDBC do MySQL não encontrado": o .jar não está no projeto.
+  - "Usuário ou senha do MySQL incorretos": corrija database.properties.
+  - "O banco de dados não existe": execute sql/create-database.sql.
+  - "Não foi possível conectar ao MySQL": o serviço do MySQL está parado
+    ou a porta/endereço está errado.
+
+
+3. A CLASSE CONNECTIONFACTORY
+-----------------------------
+Fica em db/ConnectionFactory.java e é o único lugar do sistema que sabe
+como se conectar ao banco. Ela:
+  1. Lê a URL, o usuário e a senha do arquivo database.properties (assim
+     os dados de acesso não ficam espalhados pelo código).
+  2. Carrega o driver com Class.forName("com.mysql.cj.jdbc.Driver").
+     Desde o JDBC 4 isso é automático, mas fazer explicitamente permite
+     mostrar uma mensagem clara quando o .jar não foi adicionado.
+  3. Abre a conexão com DriverManager.getConnection(url, usuario, senha).
+  4. Converte a SQLException em DatabaseException com uma mensagem em
+     português (senha errada, banco inexistente, servidor parado).
+
+Quem usa a conexão (o EmployeeDao) abre uma conexão por operação dentro
+de um try-with-resources, que fecha Connection, PreparedStatement e
+ResultSet automaticamente, mesmo se ocorrer erro.
+
+
+4. COMANDOS SQL UTILIZADOS
+--------------------------
+Criação (sql/create-database.sql):
+
+  CREATE DATABASE IF NOT EXISTS empresa
+      CHARACTER SET utf8mb4
+      COLLATE utf8mb4_unicode_ci;
+
+  USE empresa;
+
+  CREATE TABLE IF NOT EXISTS funcionarios (
+      id               INT           NOT NULL AUTO_INCREMENT,
+      nome             VARCHAR(100)  NOT NULL,
+      cargo            VARCHAR(50)   NOT NULL,
+      data_contratacao DATE          NOT NULL,
+      salario          DECIMAL(10,2) NOT NULL,
+      PRIMARY KEY (id),
+      CONSTRAINT chk_funcionarios_salario CHECK (salario > 0)
+  );
+
+Dados de exemplo (sql/sample-data.sql):
+
+  INSERT INTO funcionarios (nome, cargo, data_contratacao, salario) VALUES
+      ('Ana Souza', 'Analista de Sistemas', '2021-03-15', 6500.00),
+      ... (5 funcionários)
+
+Comandos executados pelo sistema (dao/EmployeeDao.java). Os "?" são
+parâmetros do PreparedStatement, preenchidos com setString, setObject,
+setBigDecimal e setInt. Assim o valor digitado nunca é concatenado ao
+SQL, o que evita SQL injection.
+
+  Cadastrar:
+    INSERT INTO funcionarios (nome, cargo, data_contratacao, salario)
+    VALUES (?, ?, ?, ?)
+    (o id gerado pelo AUTO_INCREMENT é lido com getGeneratedKeys())
+
+  Listar / buscar por nome:
+    SELECT id, nome, cargo, data_contratacao, salario
+    FROM funcionarios WHERE nome LIKE ? ORDER BY nome
+    (para listar todos, o parâmetro é "%%"; na busca, "%texto%")
+
+  Buscar por ID:
+    SELECT id, nome, cargo, data_contratacao, salario
+    FROM funcionarios WHERE id = ?
+
+  Atualizar:
+    UPDATE funcionarios
+    SET nome = ?, cargo = ?, data_contratacao = ?, salario = ?
+    WHERE id = ?
+
+  Excluir:
+    DELETE FROM funcionarios WHERE id = ?
+
+Mapeamento dos tipos SQL para Java:
+  INT           -> Integer     (getInt / setInt)
+  VARCHAR       -> String      (getString / setString)
+  DATE          -> LocalDate   (getObject(col, LocalDate.class) / setObject)
+  DECIMAL(10,2) -> BigDecimal  (getBigDecimal / setBigDecimal)
+  BigDecimal é usado no salário porque double tem erros de arredondamento
+  com valores monetários.
+
+
+5. TELAS E FUNÇÕES
+------------------
+Para executar: no NetBeans, Run (F6); se for perguntada a classe
+principal, escolha "Main".
+
+5.1 MENU PRINCIPAL (MainWindow)
+  Janela inicial com quatro botões e o status da conexão no rodapé
+  ("Banco de dados: conectado" em verde ou "sem conexão" em vermelho,
+  verificado ao abrir o sistema).
+  - Cadastrar Funcionário: abre o formulário de cadastro.
+  - Listar Funcionários: abre a tela de listagem.
+  - Testar Conexão: conecta ao banco e mostra servidor, driver, URL e
+    usuário, ou o motivo da falha.
+  - Sair: encerra o programa.
+
+5.2 CADASTRO / EDIÇÃO (EmployeeFormDialog)
+  Formulário com os campos:
+  - ID: somente leitura; no cadastro mostra "(gerado pelo banco)".
+  - Nome: obrigatório, até 100 caracteres, somente letras.
+  - Cargo: obrigatório, até 50 caracteres.
+  - Data de contratação: máscara dd/mm/aaaa aplicada ao digitar; precisa
+    ser uma data válida, entre 01/01/1900 e hoje.
+  - Salário: digite só os números; a máscara preenche os centavos
+    (digitar 650000 mostra 6.500,00). Maior que zero e até
+    99.999.999,99, o limite do DECIMAL(10,2).
+  Botões: "Salvar" (também com Enter) e "Cancelar".
+  No cadastro executa o INSERT e mostra o ID gerado; na edição executa
+  o UPDATE. Se algum dado for inválido, uma mensagem explica o problema
+  e nada é gravado.
+
+5.3 LISTAGEM (EmployeeListDialog)
+  - Buscar por nome: digite parte do nome e clique em "Buscar" (ou
+    Enter). "Limpar busca" volta a mostrar todos.
+  - Tabela com ID, Nome, Cargo, Data de contratação e Salário,
+    ordenada por nome.
+  - Rodapé: quantidade de funcionários listados e a soma dos salários
+    (folha salarial).
+  - Novo: abre o formulário de cadastro.
+  - Editar: selecione uma linha e clique (ou dê duplo clique na linha);
+    abre o formulário preenchido.
+  - Excluir: selecione uma linha, clique e confirme; executa o DELETE.
+  - Atualizar lista: consulta o banco de novo.
+  Depois de cadastrar, editar ou excluir, a tabela é recarregada.
+
+
+6. ESTRUTURA DO CÓDIGO
+----------------------
+  Main.java                     ponto de entrada
+  app/MainWindow.java           menu principal
+  db/ConnectionFactory.java     fábrica de conexões JDBC
+  db/DatabaseException.java     erro de acesso ao banco
+  dao/EmployeeDao.java          comandos SQL (CRUD)
+  entities/Employee.java        funcionário (id, nome, cargo, data, salário)
+  services/EmployeeService.java validações antes de gravar
+  services/EmployeeException.java  erro de validação
+  ui/EmployeeFormDialog.java    tela de cadastro/edição
+  ui/EmployeeListDialog.java    tela de listagem
+  ui/Dialogs.java, ui/InputFilters.java  mensagens e máscaras
+  util/DateUtils.java, util/MoneyUtils.java, util/TextUtils.java
+
+  Fluxo de um cadastro:
+  tela (EmployeeFormDialog) -> EmployeeService.save (valida)
+  -> EmployeeDao.insert -> ConnectionFactory.getConnection -> MySQL
+
+
+7. ROTEIRO SUGERIDO PARA O VÍDEO
+--------------------------------
+1. Mostrar o script SQL e executá-lo no MySQL Workbench; mostrar a
+   tabela criada (SELECT * FROM funcionarios).
+2. Mostrar o pom.xml (driver) e o database.properties.
+3. Abrir a ConnectionFactory e explicar Class.forName,
+   DriverManager.getConnection e o tratamento de erros.
+4. Executar o sistema e clicar em "Testar Conexão".
+5. Cadastrar um funcionário; mostrar uma validação (data futura ou
+   salário zerado).
+6. Listar, buscar por nome, editar o salário e excluir um funcionário.
+7. Voltar ao Workbench e rodar SELECT * FROM funcionarios para provar
+   que as alterações foram gravadas no banco.
+8. Mostrar no EmployeeDao um dos PreparedStatement e explicar os "?".
+
+
+8. GERAR O .ZIP PARA ENTREGA
+----------------------------
+No NetBeans, clique com o botão direito no projeto > Clean, e então
+compacte a pasta employee-management inteira (com pom.xml, src e sql).
+A pasta target pode ficar de fora; ela é recriada ao compilar.
