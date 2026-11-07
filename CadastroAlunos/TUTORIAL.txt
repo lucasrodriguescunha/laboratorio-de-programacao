@@ -1,0 +1,182 @@
+SISTEMA ESCOLA (PROJETO CadastroAlunos) - TUTORIAL DE NAVEGAÇÃO
+================================================================
+
+Aluno: Lucas Rodrigues Cunha
+Atividade: ED03 - Atividade Prática Avaliativa 02 (Java Swing + JDBC)
+
+Aplicação Java Swing que cadastra e lista alunos, professores e cursos
+em um banco de dados MySQL, usando JDBC. Os dados ficam gravados no
+banco "escola": fechar o programa não apaga nada.
+
+
+1. PREPARAÇÃO (FEITA UMA VEZ)
+-----------------------------
+1.1 Banco de dados
+  1. Abra o MySQL Workbench e conecte-se ao servidor local (root).
+  2. Abra o arquivo script-sql.txt, que fica na pasta do projeto, e
+     copie todo o texto para uma aba de consulta (Query).
+  3. Clique no raio (Execute). O script cria o banco "escola" e as
+     tabelas aluno, professor e curso.
+
+1.2 Driver JDBC (MySQL Connector/J)
+  O driver já vem na pasta lib do projeto
+  (lib/mysql-connector-j-9.1.0.jar) e já aparece em "Libraries" no
+  NetBeans. Para adicioná-lo do zero:
+  1. Baixe o driver em https://dev.mysql.com/downloads/connector/j/,
+     escolhendo "Platform Independent" (arquivo .zip).
+  2. Extraia o .zip e localize o arquivo mysql-connector-j-X.Y.Z.jar.
+  3. No NetBeans, clique com o botão direito no projeto > Properties >
+     Libraries > Add JAR/Folder e selecione o .jar.
+
+1.3 Usuário e senha do MySQL
+  Ficam na classe Conexao (src/cadastroalunos/conexao/Conexao.java):
+      URL     = jdbc:mysql://localhost:3306/escola?...
+      USUARIO = root
+      SENHA   = admin
+  Se o MySQL do computador usar outra senha, altere SENHA e salve.
+
+
+2. COMO EXECUTAR
+----------------
+  1. No NetBeans: File > Open Project e selecione a pasta
+     CadastroAlunos (projeto Java with Ant, sem Maven).
+  2. Clique em Run Project (F6). A classe principal é
+     cadastroalunos.CadastroAlunos.
+
+  Requer JDK 11 ou superior e o serviço do MySQL em execução.
+
+
+3. TELA PRINCIPAL
+-----------------
+Ao abrir o sistema aparece a janela "Sistema Escola" com quatro grupos
+de botões:
+
+  Alunos        [Cadastrar e Listar Alunos]
+  Professores   [Cadastrar Professor]   [Listar Professores]
+  Cursos        [Cadastrar Curso]       [Listar Cursos]
+  Sistema       [Testar Conexão]        [Sair]
+
+Embaixo dos botões aparece a situação do banco de dados:
+  - "Banco de dados: conectado" (verde): tudo pronto para usar.
+  - "Banco de dados: sem conexão" (vermelho): clique em
+    "Testar Conexão" para ver o motivo (veja a seção 7).
+
+"Testar Conexão" abre uma mensagem com o banco, a versão do MySQL, o
+driver e o usuário conectado.
+
+Cada botão abre a sua tela por cima da tela principal. As telas podem
+ficar abertas ao mesmo tempo; por exemplo, o cadastro e a listagem de
+professores lado a lado. Para voltar, clique em "Fechar" ou no "X" da
+tela. Fechar a tela principal ou clicar em "Sair" encerra o programa.
+
+
+4. ALUNOS (botão "Cadastrar e Listar Alunos")
+---------------------------------------------
+Tela única, com o cadastro em cima e a listagem embaixo.
+
+Cadastrar:
+  1. Digite o Nome e o E-mail do aluno.
+  2. Clique em "Salvar" (ou tecle Enter).
+  3. Aparece a mensagem "Aluno cadastrado com sucesso!". Clique em OK.
+     Os campos são limpos para o próximo cadastro.
+
+Listar:
+  1. Clique em "Listar".
+  2. A área "Alunos cadastrados" mostra um aluno por linha, por exemplo:
+       1 - Nome: Ana Souza - Email: ana.souza@email.com
+     e o rodapé mostra quantos alunos foram listados.
+
+  Se a tabela estiver vazia, aparece "Nenhum aluno cadastrado.".
+  A lista não se atualiza sozinha: depois de salvar, clique em
+  "Listar" de novo para ver o aluno novo.
+
+
+5. PROFESSORES
+--------------
+5.1 Cadastrar Professor
+  1. Na tela principal, clique em "Cadastrar Professor".
+  2. Digite o Nome e a Disciplina.
+  3. Clique em "Inserir" (ou tecle Enter).
+  4. Aparece "Professor cadastrado com sucesso!" e os campos são limpos.
+
+5.2 Listar Professores
+  1. Na tela principal, clique em "Listar Professores".
+  2. Clique em "Listar". Cada linha mostra um professor, por exemplo:
+       1 - Nome: Carla Mendes - Disciplina: Matemática
+
+
+6. CURSOS
+---------
+6.1 Cadastrar Curso
+  1. Na tela principal, clique em "Cadastrar Curso".
+  2. Digite o Nome e a Carga horária: o total de horas do curso, só
+     números (exemplo: 60).
+  3. Clique em "Inserir" (ou tecle Enter).
+  4. Aparece "Curso cadastrado com sucesso!" e os campos são limpos.
+
+6.2 Listar Cursos
+  1. Na tela principal, clique em "Listar Cursos".
+  2. Clique em "Listar". Cada linha mostra um curso, por exemplo:
+       1 - Nome: Banco de Dados - Carga horária: 80 horas
+
+
+7. MENSAGENS DE AVISO E DE ERRO
+-------------------------------
+Avisos (janela "Atenção") aparecem antes de gravar, quando algum campo
+está errado. Nada é gravado e o cursor vai para o campo a corrigir:
+  - Campo vazio: "Informe o nome do aluno.", "Informe a disciplina do
+    professor.", "Informe a carga horária do curso." etc.
+  - Nome, e-mail ou disciplina com mais de 100 caracteres.
+  - E-mail fora do formato nome@email.com.
+  - Carga horária com letras, zero ou negativa.
+
+Erros (janela "Erro") aparecem quando o banco de dados não responde.
+A mensagem diz o que fazer:
+  - "Driver JDBC do MySQL não encontrado": o .jar não está em
+    Libraries (seção 1.2).
+  - "Usuário ou senha do MySQL incorretos": ajuste a classe Conexao
+    (seção 1.3).
+  - "O banco de dados "escola" não existe": execute o script-sql.txt
+    (seção 1.1).
+  - "Não foi possível conectar ao MySQL": o serviço do MySQL está
+    parado.
+  - "Table 'escola.professor' doesn't exist": o banco existe, mas falta
+    a tabela; execute o script-sql.txt de novo.
+
+
+8. CONFERINDO OS DADOS NO BANCO
+-------------------------------
+No MySQL Workbench, execute:
+  SELECT * FROM escola.aluno;
+  SELECT * FROM escola.professor;
+  SELECT * FROM escola.curso;
+
+
+9. ROTEIRO SUGERIDO PARA O VÍDEO
+--------------------------------
+1. Mostrar o script-sql.txt e executá-lo no MySQL Workbench; mostrar as
+   três tabelas criadas.
+2. No NetBeans, mostrar o driver em Libraries e a classe Conexao: URL,
+   usuário, senha, Class.forName (carrega o driver) e getConnection().
+3. Executar o sistema, mostrar "Banco de dados: conectado" e clicar em
+   "Testar Conexão".
+4. Alunos: clicar em "Salvar" com os campos vazios (aviso); cadastrar
+   dois alunos; clicar em "Listar".
+5. Professores: cadastrar dois professores; abrir "Listar Professores"
+   e clicar em "Listar".
+6. Cursos: tentar a carga horária "abc" (aviso); cadastrar dois cursos;
+   abrir "Listar Cursos" e clicar em "Listar".
+7. No código, mostrar o botão Inserir de uma das telas novas: o SQL com
+   "?", o PreparedStatement, o setString/setInt, o executeUpdate, a
+   mensagem de confirmação, a limpeza dos campos e o catch da
+   SQLException.
+8. Voltar ao Workbench e rodar os SELECT da seção 8 para provar que os
+   dados foram gravados no banco.
+
+
+10. GERAR O .ZIP PARA ENTREGA
+-----------------------------
+No NetBeans, clique com o botão direito no projeto > Clean e depois use
+File > Export Project > To ZIP... (ou compacte a pasta CadastroAlunos
+inteira). O .zip deve conter as pastas src, nbproject e lib e os
+arquivos build.xml, manifest.mf, script-sql.txt e este TUTORIAL.txt.
