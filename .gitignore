@@ -3,7 +3,14 @@ out/
 target/
 build/
 bin/
+dist/
 *.class
+
+# NetBeans (configurações locais da máquina)
+nbproject/private/
+
+# Pacotes .zip gerados para entrega
+*.zip
 
 # IntelliJ IDEA
 .idea/
