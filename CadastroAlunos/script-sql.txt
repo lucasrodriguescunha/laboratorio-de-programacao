@@ -1,0 +1,72 @@
+-- =====================================================================
+-- CadastroAlunos - Script do banco de dados "escola"
+-- Aluno: Lucas Rodrigues Cunha
+-- Atividade: ED03 - Atividade Prática Avaliativa 02 (Java Swing + JDBC)
+--
+-- Como executar no MySQL Workbench:
+--   1. Conecte-se ao servidor local (usuário root).
+--   2. Copie todo este texto para uma aba de consulta (Query).
+--   3. Clique no raio (Execute) para rodar o script inteiro.
+--
+-- Pela linha de comando, na pasta do projeto:
+--   mysql -u root -p < script-sql.txt
+--
+-- O script pode ser executado mais de uma vez: o IF NOT EXISTS evita
+-- erro se o banco ou as tabelas já existirem, e nenhum dado é apagado.
+-- =====================================================================
+
+
+-- 1. BANCO DE DADOS ---------------------------------------------------
+
+CREATE DATABASE IF NOT EXISTS escola
+    DEFAULT CHARACTER SET utf8mb4;
+
+USE escola;
+
+
+-- 2. TABELA ALUNO (pedida no enunciado) -------------------------------
+
+CREATE TABLE IF NOT EXISTS aluno (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL
+);
+
+
+-- 3. TABELA PROFESSOR (nova) ------------------------------------------
+
+CREATE TABLE IF NOT EXISTS professor (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  disciplina VARCHAR(100) NOT NULL
+);
+
+
+-- 4. TABELA CURSO (nova) ----------------------------------------------
+-- carga_horaria é o total de horas do curso e precisa ser maior que zero.
+
+CREATE TABLE IF NOT EXISTS curso (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  carga_horaria INT NOT NULL,
+  CHECK (carga_horaria > 0)
+);
+
+
+-- 5. COMANDOS EXECUTADOS PELO SISTEMA ---------------------------------
+-- Ficam no código das telas (pacote cadastroalunos.telas). Cada "?" é
+-- preenchido pelo PreparedStatement com o valor digitado no campo.
+--
+--   Tela de Alunos       (botão Salvar)  INSERT INTO aluno (nome, email) VALUES (?, ?)
+--   Tela de Alunos       (botão Listar)  SELECT id, nome, email FROM aluno ORDER BY id
+--   Cadastro de Professor (botão Inserir) INSERT INTO professor (nome, disciplina) VALUES (?, ?)
+--   Listagem de Professores (botão Listar) SELECT id, nome, disciplina FROM professor ORDER BY id
+--   Cadastro de Curso    (botão Inserir) INSERT INTO curso (nome, carga_horaria) VALUES (?, ?)
+--   Listagem de Cursos   (botão Listar)  SELECT id, nome, carga_horaria FROM curso ORDER BY id
+
+
+-- 6. CONSULTAS PARA CONFERIR OS DADOS GRAVADOS PELO SISTEMA -----------
+
+SELECT * FROM aluno;
+SELECT * FROM professor;
+SELECT * FROM curso;
